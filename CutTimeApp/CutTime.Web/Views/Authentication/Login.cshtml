@@ -1,44 +1,42 @@
 ﻿@model LoginView
 @{
-    Layout = "_Login_Layout";
-    
+    Layout = "_Login_Layout"; 
+    ViewData["Title"] = "Iniciar Sesión";
 }
 
-
 <div class="login-box-body">
-    <p class="login-box-msg">Sign in to start your session</p>
+
+    <p class="login-box-msg">Inicia sesión para iniciar tu sesión</p>
     @if (!string.IsNullOrEmpty(ViewBag.Error)) {
         <div class="alert alert-danger">@ViewBag.Error</div>
     }
+
     <form asp-controller="Authentication" asp-action="Login" method="post">
+
         <div class="form-group has-feedback">
-            <input asp-for="email" type="Email" class="form-control" placeholder="Email">
+            <input asp-for="email" type="Email" class="form-control" placeholder="Correo">
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
         </div>
+
         <div class="form-group has-feedback">
-            <input asp-for="password" type="password" class="form-control" placeholder="Password">
+            <input asp-for="password" type="password" class="form-control" placeholder="Contraseña">
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
         </div>
+
         <div class="row">
-@*            <div class="col-xs-8">
-                <div class="checkbox icheck">
-                    <label>
-                        <input type="checkbox"> Remember Me
-                    </label>
-                </div>
-            </div><!-- /.col -->*@
-            <div class="col-xs-4">
-                <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
-            </div><!-- /.col -->
+
+            <div class="col-xs-6">
+                <button type="submit" class="btn btn-primary btn-block btn-flat">Iniciar Sesión</button>
+            </div>
+
         </div>
+
     </form>
+
     </br>
-    @*<a href="#">I forgot my password</a><br>*@
-    <a asp-area="" asp-controller="Authentication" asp-action="Register" class="text-center">Register a new membership</a>
+    <a asp-area="" asp-controller="Authentication" asp-action="Register" class="text-center">Registrar un nuevo usuario</a>
 
-</div><!-- /.login-box-body -->
+</div>
 
 
-@section scripts {
-
-}
+@section scripts {}

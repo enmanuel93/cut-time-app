@@ -1,9 +1,14 @@
+using CutTime.Web.Helpers;
 using Microsoft.AspNetCore.Razor.Runtime;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+#region Services
+builder.Services.AddServices();
+#endregion
 
 var app = builder.Build();
 

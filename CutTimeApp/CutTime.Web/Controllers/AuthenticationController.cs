@@ -29,7 +29,7 @@ namespace CutTime.Web.Controllers {
             else {
 
                 var Usuario = Usuarios.First();
-                HttpContext.Session.SetString("UsuarioId", Usuario.IdUser.ToString());
+                HttpContext.Session.SetInt32("UsuarioId", Usuario.IdUser);
                 HttpContext.Session.SetString("UsuarioNombre", $"{Usuario.Name} {Usuario.Lastname}".Trim());
                 HttpContext.Session.SetString("UsuarioRol", Usuario.UserType?.ToString() ?? "");
                 return RedirectToAction("Index", "Home");
@@ -54,7 +54,7 @@ namespace CutTime.Web.Controllers {
             else {
 
                 _Contexto.Users.Add(new Models.User {
-                    IdUser = _Contexto.Users.Count() + 1,
+                    IdUser = (_Contexto.Users.Max(x => (int?)x.IdUser) ??0 ) + 1,
                     Name = RegisterView.Nombre,
                     Lastname = RegisterView.Apellido,
                     Password = RegisterView.Contrasena,

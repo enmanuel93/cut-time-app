@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    string[] Mantenimientos = new string[] {"Clientes", "Barberos"};
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -101,30 +105,21 @@
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu">
                     <li class="header">MENU</li>
-                    <li class="active treeview">
+                    <li class="@(ViewData["Title"]?.ToString() == "Inicio" ? "active" : "") treeview">
                         <a asp-area="" asp-controller="Home" asp-action="Index">
                             <i class="fa fa-home"></i> <span>Inicio</span>
                         </a>
                     </li>
 
-                    <li>
+                    <li class="@(ViewData["Title"]?.ToString() == "Citas" ? "active" : "")">
                         <a asp-area="" asp-controller="Appointment" asp-action="Index">
                             <i class="fa fa-calendar"></i> <span>Citas</span>
                             @*<small class="label pull-right bg-red">3</small>*@
                         </a>
                     </li>
-                    <li class="header">MANTENIMIENTO</li>
-                    <li class="treeview">
-                        <a href="#">
-                            <i class="fa fa-users"></i>
-                            <span>Usuarios</span>
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a asp-area="" asp-controller="Clients" asp-action="Index"><i class="fa fa-circle-o"></i> Clientes</a></li>
-                            <li><a asp-area="" asp-controller="Barbers" asp-action="Index"><i class="fa fa-circle-o"></i> Barberos</a></li>
-                        </ul>
-                    </li>
+                    <li class="header">MAESTROS</li>
+                    <li class="@(ViewData["Title"]?.ToString() == "Barberos" ? "active" : "")"><a asp-area="" asp-controller="Barbers" asp-action="Index"><i class="fa fa-circle-o"></i> Barberos</a></li>
+
                 </ul>
             </section>
             <!-- /.sidebar -->

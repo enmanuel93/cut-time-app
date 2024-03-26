@@ -40,18 +40,20 @@
                     <a href="#" class="small-box-footer">Información <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div><!-- ./col -->
-            <div class="col-lg-3 col-xs-6">
+            <div class="col-lg-3 col-xs-6" >
                 <!-- small box -->
+                <a asp-area="" asp-controller="Barbers" asp-action="Index" class="small-box bg-yellow" style="margin:0; padding:0">
                 <div class="small-box bg-yellow">
-                    <div class="inner">
-                        <h3>0</h3>
+                    <div class="inner" >
+                        <h3>@ViewBag.Barberos</h3>
                         <p>Barberos</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-person-add"></i>
                     </div>
-                    <a href="#" class="small-box-footer">Información <i class="fa fa-arrow-circle-right"></i></a>
+                    <a class="small-box-footer">Información <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
+                </a>
             </div><!-- ./col -->
         </div><!-- /.row -->
     </div>

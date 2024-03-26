@@ -1,6 +1,5 @@
 ﻿using CutTime.Web.Models;
 
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -17,8 +16,10 @@ namespace CutTime.Web.Controllers {
             _logger = logger;
         }
 
-        public IActionResult Index() => View();
-
+        public IActionResult Index() {
+            ViewBag.Barberos = _Contexto.Barbers.Count();
+            return View();
+        }
         public IActionResult Privacy() => View();
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

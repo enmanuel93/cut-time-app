@@ -32,6 +32,7 @@ namespace CutTime.Web.Controllers {
                 HttpContext.Session.SetString("UsuarioId", Usuario.IdUser.ToString());
                 HttpContext.Session.SetString("UsuarioNombre", $"{Usuario.Name} {Usuario.Lastname}".Trim());
                 HttpContext.Session.SetString("UsuarioRol", Usuario.UserType?.ToString() ?? "");
+
                 return RedirectToAction("Index", "Home");
             }
 

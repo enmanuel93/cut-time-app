@@ -1,17 +1,18 @@
-﻿using CutTime.Web.ViewModel;
-
+﻿using CutTime.Domain.Contracts;
+using CutTime.Domain.Models;
+using CutTime.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CutTime.Web.Controllers {
+namespace CutTime.Web.Controllers
+{
 
     public class AuthenticationController : Controller
     {
 
-        private readonly CutTimeContext _Contexto;
+        private readonly IRepositoryWrapper _Repository;
 
-        public AuthenticationController(CutTimeContext Contexto) {
-            _Contexto = Contexto;
-
+        public AuthenticationController(IRepositoryWrapper Repository) {
+            _Repository = Repository;
         }
 
         [HttpGet]
@@ -20,7 +21,7 @@ namespace CutTime.Web.Controllers {
         [HttpPost]
         public IActionResult Login(LoginView LoginView) {
 
-            var Usuarios = _Contexto.Users.Where(x => x.Email == LoginView.email);
+            var Usuarios = _Repository.UserRepository.FindByCondition(x => x.Email == LoginView.email);
 
             if (LoginView.email is null or "") { }
             else if (LoginView.password is null or "") { }
@@ -29,10 +30,9 @@ namespace CutTime.Web.Controllers {
             else {
 
                 var Usuario = Usuarios.First();
-                HttpContext.Session.SetInt32("UsuarioId", Usuario.IdUser);
+                HttpContext.Session.SetInt32("UsuarioId", Usuario.ID_User);
                 HttpContext.Session.SetString("UsuarioNombre", $"{Usuario.Name} {Usuario.Lastname}".Trim());
-                HttpContext.Session.SetString("UsuarioRol", Usuario.UserType?.ToString() ?? "");
-
+                HttpContext.Session.SetString("UsuarioRol", Usuario.User_Type?.ToString() ?? "");
                 return RedirectToAction("Index", "Home");
             }
 
@@ -46,7 +46,7 @@ namespace CutTime.Web.Controllers {
         [HttpPost]
         public IActionResult Register(RegisterView RegisterView) {
 
-            var Usuarios = _Contexto.Users.Where(x => x.Email == RegisterView.Email);
+            var Usuarios = _Repository.UserRepository.FindByCondition(x => x.Email == RegisterView.Email);
 
             if (RegisterView.Nombre is null or "") { ViewBag.Error = "Debe llenar los campos obligatorios."; }
             else if (RegisterView.Apellido is null or "") { ViewBag.Error = "Debe llenar los campos obligatorios."; } 
@@ -54,16 +54,15 @@ namespace CutTime.Web.Controllers {
             else if (Usuarios.Any()) { ViewBag.Error = "Ya existe un usuario con este corrreo electronico."; } 
             else {
 
-                _Contexto.Users.Add(new Models.User {
-                    IdUser = (_Contexto.Users.Max(x => (int?)x.IdUser) ??0 ) + 1,
+                _Repository.UserRepository.Create(new User {
                     Name = RegisterView.Nombre,
                     Lastname = RegisterView.Apellido,
                     Password = RegisterView.Contrasena,
                     Email = RegisterView.Email,
-                    UserType = "Cliente"
+                    User_Type = "Cliente"
                 });
 
-                _Contexto.SaveChanges();
+                _Repository.Save();
 
                 return RedirectToAction("Login", "");
             }

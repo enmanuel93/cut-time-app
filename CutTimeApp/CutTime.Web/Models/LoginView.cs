@@ -1,4 +1,4 @@
-﻿namespace CutTime.Web.ViewModel
+﻿namespace CutTime.Web.Models
 {
     public class LoginView
     {

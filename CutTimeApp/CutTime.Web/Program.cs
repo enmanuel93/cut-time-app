@@ -1,10 +1,6 @@
-using CutTime.Web;
-
-using Microsoft.AspNetCore.Authentication.Cookies;
+using CutTime.Domain.Models;
+using CutTime.Web.Helpers;
 using Microsoft.EntityFrameworkCore;
-
-using System.Configuration;
-using System.Xml.Xsl;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,8 +9,12 @@ builder.Services
     .AddControllersWithViews(options => options.Filters.Add(typeof(UsuarioInfoActionFilter)))
     .AddRazorRuntimeCompilation();
 
-builder.Services.AddDbContext<CutTimeContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("CT_Context")));
+builder.Services.AddDbContext<CutTimeContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("CT_Context") ?? ""));
 builder.Services.AddSession(options => { options.Cookie.Name = "CutTime"; options.IdleTimeout = TimeSpan.FromMinutes(30); });
+
+#region Services
+builder.Services.AddServices();
+#endregion
 
 var app = builder.Build();
 

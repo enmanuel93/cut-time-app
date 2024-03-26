@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CutTime.Web.Models.Barber>
+﻿@model IEnumerable<Barber>
 
 @{
  ViewData["Title"] = "Barberos";
@@ -36,7 +36,7 @@
                                 @foreach (var item in Model) {
                                     <tr>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.IdBarber)
+                                            @Html.DisplayFor(modelItem => item.ID_Barber)
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Name)
@@ -51,9 +51,9 @@
                                             @Html.DisplayFor(modelItem => item.Phone)
                                         </td>
                                         <td>
-                                            <a asp-action="Edit" asp-route-id="@item.IdBarber">Editar</a> |
-                                            <a asp-action="Details" asp-route-id="@item.IdBarber">Ver</a> |
-                                            <a asp-action="Delete" asp-route-id="@item.IdBarber">Borrar</a>
+                                            <a asp-action="Edit" asp-route-id="@item.ID_Barber">Editar</a> |
+                                            <a asp-action="Details" asp-route-id="@item.ID_Barber">Ver</a> |
+                                            <a asp-action="Delete" asp-route-id="@item.ID_Barber">Borrar</a>
                                         </td>
                                     </tr>
                                 }

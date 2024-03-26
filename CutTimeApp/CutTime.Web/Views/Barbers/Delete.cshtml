@@ -1,4 +1,4 @@
-﻿@model CutTime.Web.Models.Barber
+﻿@model Barber
 
 @{
     ViewData["Title"] = "Barberos";
@@ -38,7 +38,7 @@
         </dl>
     
         <form asp-action="Delete">
-            <input type="hidden" asp-for="IdBarber" />
+            <input type="hidden" asp-for="ID_Barber" />
             <input type="submit" value="Borrar" class="btn btn-danger" />            
         </form>
         <br/>

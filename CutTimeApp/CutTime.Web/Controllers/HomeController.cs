@@ -1,4 +1,5 @@
-﻿using CutTime.Web.Models;
+﻿using CutTime.Domain.Contracts;
+using CutTime.Web.Models;
 
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -7,17 +8,15 @@ namespace CutTime.Web.Controllers {
 
     public class HomeController : Controller {
 
-        private readonly ILogger<HomeController> _logger;
+        private readonly IRepositoryWrapper _Repository;
 
-        private CutTimeContext _Contexto;
+        public HomeController(IRepositoryWrapper Repository) {
+            _Repository = Repository;
 
-        public HomeController(CutTimeContext Contexto, ILogger<HomeController> logger) {
-            _Contexto = Contexto;
-            _logger = logger;
         }
 
         public IActionResult Index() {
-            ViewBag.Barberos = _Contexto.Barbers.Count();
+            ViewBag.Barberos = _Repository.BarberRepository.Count();
             return View();
         }
         public IActionResult Privacy() => View();

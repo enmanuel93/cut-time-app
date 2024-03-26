@@ -1,4 +1,4 @@
-﻿@model CutTime.Web.Models.Barber
+﻿@model Barber
 
 @{
     ViewData["Title"] = "Barberos";
@@ -10,7 +10,7 @@
         <div class="col-md-4">
             <form asp-action="Edit">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="IdBarber" />
+                <input type="hidden" asp-for="ID_Barber" />
                 <div class="form-group">
                     <label asp-for="Name" class="control-label">Nombres</label>
                     <input asp-for="Name" class="form-control" />

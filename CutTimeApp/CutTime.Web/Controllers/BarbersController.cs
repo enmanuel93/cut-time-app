@@ -3,31 +3,32 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CutTime.Web;
 using CutTime.Web.Models;
+using CutTime.Domain.Contracts;
+using CutTime.Domain.Models;
 
 namespace CutTime.Web.Controllers
 {
     public class BarbersController : Controller
     {
-        private readonly CutTimeContext _context;
 
-        public BarbersController(CutTimeContext context)
+        private readonly IRepositoryWrapper _Repository;
+
+        public BarbersController(IRepositoryWrapper Repository)
         {
-            _context = context;
+            _Repository = Repository;
         }
 
         // GET: Barbers
         public async Task<IActionResult> Index()
         {
-            var cutTimeContext = _context.Barbers.Include(b => b.IdUserNavigation);
-            return View(await cutTimeContext.ToListAsync());
+            return View(await _Repository.BarberRepository.ToListAsync());
         }
 
         // GET: Barbers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Barbers == null) return NotFound();
 
-            var barber = await _context.Barbers.FirstOrDefaultAsync(m => m.IdBarber == id);
+            var barber = await _Repository.BarberRepository.FindByCondition(m => m.ID_Barber == id).FirstOrDefaultAsync();
 
             return barber == null ? NotFound() : View(barber);
         }
@@ -45,12 +46,13 @@ namespace CutTime.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,Lastname,Email,Phone")] Barber barber)
         {
-            if (ModelState.IsValid)
+            
+            if (ModelState.IsValid || ModelState.ErrorCount == 2)
             {
-                barber.IdBarber = (_context.Barbers.Max(b => (int?)b.IdBarber) ?? 0) + 1;
-                barber.IdUser = HttpContext.Session.GetInt32("UsuarioId");
-                _context.Add(barber);
-                await _context.SaveChangesAsync();
+                barber.ID_User = HttpContext.Session.GetInt32("UsuarioId") ?? 0;
+                _Repository.BarberRepository.Create(barber);
+
+                await _Repository.SaveAsync();
                 return RedirectToAction(nameof(Index));
             }
             
@@ -60,18 +62,10 @@ namespace CutTime.Web.Controllers
         // GET: Barbers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Barbers == null)
-            {
-                return NotFound();
-            }
 
-            var barber = await _context.Barbers.FindAsync(id);
-            if (barber == null)
-            {
-                return NotFound();
-            }
-            ViewData["IdUser"] = new SelectList(_context.Users, "IdUser", "IdUser", barber.IdUser);
-            return View(barber);
+            var barber = await _Repository.BarberRepository.FindByConditionAsync(x=> x.ID_Barber == id);
+            return barber == null ? NotFound() : View(barber.FirstOrDefault());
+
         }
 
         // POST: Barbers/Edit/5
@@ -82,18 +76,18 @@ namespace CutTime.Web.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("IdBarber, Name,Lastname,Email,Phone")] Barber barber)
         {
  
-            if (ModelState.IsValid)
+            if (ModelState.IsValid || ModelState.ErrorCount == 2)
             {
                 try
                 {
-                    barber.IdBarber = id;
-                    barber.IdUser = HttpContext.Session.GetInt32("UsuarioId");
-                    _context.Update(barber);
-                    await _context.SaveChangesAsync();
+                    barber.ID_Barber = id;
+                    barber.ID_User = HttpContext.Session.GetInt32("UsuarioId") ?? 0;
+                    _Repository.BarberRepository.Update(barber);
+                    await _Repository.SaveAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BarberExists(barber.IdBarber))
+                    if (!BarberExists(barber.ID_Barber))
                     {
                         return NotFound();
                     }
@@ -102,6 +96,7 @@ namespace CutTime.Web.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
 
@@ -111,20 +106,8 @@ namespace CutTime.Web.Controllers
         // GET: Barbers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Barbers == null)
-            {
-                return NotFound();
-            }
-
-            var barber = await _context.Barbers
-                .Include(b => b.IdUserNavigation)
-                .FirstOrDefaultAsync(m => m.IdBarber == id);
-            if (barber == null)
-            {
-                return NotFound();
-            }
-
-            return View(barber);
+            var barber = await _Repository.BarberRepository.FindByConditionAsync(m => m.ID_Barber == id);
+            return barber == null ? NotFound() : View(barber.FirstOrDefault());
         }
 
         // POST: Barbers/Delete/5
@@ -132,23 +115,19 @@ namespace CutTime.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Barbers == null)
+            var barber = await _Repository.BarberRepository.FindByConditionAsync(m => m.ID_Barber == id);
+            if (barber.FirstOrDefault() != null)
             {
-                return Problem("Entity set 'CutTimeContext.Barbers'  is null.");
-            }
-            var barber = await _context.Barbers.FindAsync(id);
-            if (barber != null)
-            {
-                _context.Barbers.Remove(barber);
+                _Repository.BarberRepository.Delete(barber.First());
             }
             
-            await _context.SaveChangesAsync();
+            await _Repository.SaveAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool BarberExists(int id)
         {
-          return (_context.Barbers?.Any(e => e.IdBarber == id)).GetValueOrDefault();
+          return _Repository.BarberRepository.Any(e => e.ID_Barber == id);
         }
     }
 }

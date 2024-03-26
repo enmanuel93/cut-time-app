@@ -1,6 +1,8 @@
-﻿namespace CutTime.Web.ViewModel {
+﻿namespace CutTime.Web.Models
+{
 
-    public class RegisterView {
+    public class RegisterView
+    {
 
         public string Nombre { get; set; } = "";
 

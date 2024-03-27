@@ -15,4 +15,8 @@
     <ProjectReference Include="..\CutTime.Domain\CutTime.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Mocks\" />
+  </ItemGroup>
+
 </Project>

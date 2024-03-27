@@ -12,7 +12,7 @@ namespace CutTime.Domain.Models
     {
         [Key]
         public int ID_Appointment { get; set; }
-        public int ID_Customer { get; set; }
+        public int ID_Client { get; set; }
         public int ID_Barber { get; set; }
         public DateTime Date_Time { get; set; }
         public string Service { get; set; }

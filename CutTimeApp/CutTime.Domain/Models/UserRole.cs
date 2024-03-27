@@ -8,18 +8,20 @@ using System.Threading.Tasks;
 
 namespace CutTime.Domain.Models
 {
+    [Table("User_Role")]
     public class UserRole
     {
         [Key]
         public int ID { get; set; }
+        
+        public int ID_User { get; set; }
+        
+        public int ID_Role { get; set; }
 
-        [ForeignKey("User")]
-        public int User_ID { get; set; }
-
-        [ForeignKey("Role")]
-        public int Role_ID { get; set; }
-
+        [ForeignKey("ID_User")]
         public User User { get; set; }
+
+        [ForeignKey("ID_Role")]
         public Role Role { get; set; }
     }
 }

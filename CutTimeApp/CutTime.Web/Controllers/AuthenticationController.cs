@@ -6,17 +6,24 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using CutTime.Web.Mocks;
+using CutTime.Domain.Contracts;
+using AutoMapper;
+using CutTime.Web.DTOs;
 
 namespace CutTime.Web.Controllers
 {
     public class AuthenticationController : Controller
     {
-        public AuthenticationController()
+        private readonly IRepositoryWrapper repositoryWrapper;
+        private readonly IMapper mapper;
+
+        public AuthenticationController(IRepositoryWrapper repositoryWrapper, IMapper mapper)
         {
-            
+            this.repositoryWrapper = repositoryWrapper;
+            this.mapper = mapper;
         }
 
-        public IActionResult Index()
+        public IActionResult Login()
         {
             return View();
         }
@@ -24,18 +31,19 @@ namespace CutTime.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(User user)
         {
-            DataLogicalMock dA_Logica = new DataLogicalMock();
-            var usuario = dA_Logica.ValidarUsuario(user.Email, user.Password);
+            var userModel = await repositoryWrapper.UserRepository.GetUserAndRolByCredentials(user);
 
-            if (usuario != null)
+            var model = mapper.Map<LoginDto>(userModel);
+
+            if (model != null)
             {
                 var claims = new List<Claim>()
                 {
-                    new Claim(ClaimTypes.Name, usuario.Name),
-                    new Claim("Email", usuario.Email)
+                    new Claim(ClaimTypes.Name, model.Name),
+                    new Claim("Email", model.Email)
                 };
 
-                foreach (var rol in usuario.Roles)
+                foreach (var rol in model.Roles)
                 {
                     claims.Add(new Claim(ClaimTypes.Role, rol.Name));
                 }
@@ -59,7 +67,7 @@ namespace CutTime.Web.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Register(User user)
-        {            
+        {
             return View();
         }
 

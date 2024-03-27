@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace CutTime.Domain.Contracts
 {
-    public interface IUserRepository : IRepositoryBase<User>
+    public interface IUserRole: IRepositoryBase<UserRole>
     {
-        Task<User> GetUserAndRolByCredentials(User user);
     }
 }

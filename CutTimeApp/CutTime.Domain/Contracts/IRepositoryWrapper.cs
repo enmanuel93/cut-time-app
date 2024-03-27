@@ -12,6 +12,6 @@ namespace CutTime.Domain.Contracts
         IClientRepository ClientRepository { get; }
         IAppointmentRepository AppointmentRepository { get; }
         IUserRepository UserRepository { get; }
-        void Save();
+        IRolRepository RolRepository { get; }
     }
 }

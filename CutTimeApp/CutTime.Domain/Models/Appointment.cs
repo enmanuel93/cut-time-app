@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace CutTime.Domain.Models
 {
+    [Table("Appointments")]
     public class Appointment
     {
         [Key]

@@ -1,5 +1,6 @@
 ﻿using CutTime.Domain.Contracts;
 using CutTime.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace CutTime.Infrastructure.Services
         private ClientRepository clientRepository;
         private AppointmentRepository appointmentRepository;
         private UserRepository userRepository;
-
+        private RoleRepository roleRepository;
 
 
         public IBarberRepository BarberRepository
@@ -67,14 +68,21 @@ namespace CutTime.Infrastructure.Services
             }
         }
 
+        public IRolRepository RolRepository
+        {
+            get
+            {
+                if (roleRepository == null)
+                {
+                    roleRepository = new RoleRepository(_context);
+    }
+                return roleRepository;
+            }
+        }
+
         public RepositoryWrapper(CutTimeContext context)
         {
             _context = context;
-        }
-
-        public void Save()
-        {
-            _context.SaveChanges();
         }
     }
 }

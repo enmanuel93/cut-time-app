@@ -1,35 +1,33 @@
-﻿using CutTime.Web.Models;
+﻿using CutTime.Domain.Contracts;
+using CutTime.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace CutTime.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Administrador,Cliente,Barbero")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IRepositoryWrapper repositoryWrapper;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IRepositoryWrapper repositoryWrapper)
         {
             _logger = logger;
+            this.repositoryWrapper = repositoryWrapper;
         }
 
-        [Authorize(Roles = "Administrador,Supervisor,Barbero")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var appointments = await repositoryWrapper.AppointmentRepository.FindAll();
+            var barbers = await repositoryWrapper.BarberRepository.FindAll();
+            var clients = await repositoryWrapper.ClientRepository.FindAll();
+
+            ViewBag.Appointments = appointments.Count();
+            ViewBag.Barbers = barbers.Count();
+            ViewBag.Clients = clients.Count();
             return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
         [AllowAnonymous]

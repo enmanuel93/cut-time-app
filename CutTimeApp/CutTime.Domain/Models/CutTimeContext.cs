@@ -19,17 +19,14 @@ namespace CutTime.Domain.Models
         public DbSet<Barber> Barbers { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<UserType> UserTypes { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.UserType)
-                .WithOne()
-                .HasForeignKey<UserType>(c => c.ID_UserType);
+            modelBuilder.Entity<User>();
 
             modelBuilder.Entity<UserRole>()
-                .HasKey(c => new { c.Role_ID, c.User_ID });
+                .HasKey(c => new { c.ID_Role, c.ID_User });
 
             modelBuilder.Entity<Client>()
                 .HasMany(c => c.Appointments)

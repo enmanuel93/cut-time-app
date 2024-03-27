@@ -24,6 +24,10 @@
                     <p>
                         La página que estás buscando no existe.
                     </p>
+
+                    <div class="container-btn__error-page">
+                        <a asp-controller="Home" asp-action="Index" id="error-page__btn-home" class="btn btn-warning">Inicio</a>
+                    </div>
                 </div><!-- /.error-content -->
             </div><!-- /.error-page -->
         </section><!-- /.content -->
@@ -42,6 +46,14 @@
             display: flex !important;
             flex-direction: column;
             justify-content: center;
+        }
+
+        #error-page__btn-home{
+            width: 100px;
+        }
+
+        .container-btn__error-page{
+            width: 100%;
         }
     </style>
 }

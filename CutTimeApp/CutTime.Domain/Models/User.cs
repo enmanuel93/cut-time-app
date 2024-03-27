@@ -10,8 +10,10 @@ using System.Threading.Tasks;
 
 namespace CutTime.Domain.Models
 {
+    [Table("Users")]
     public class User
     {
+        [Key]
         public int ID_User { get; set; }
         public string Name { get; set; }
         public string Lastname { get; set; }
@@ -23,6 +25,5 @@ namespace CutTime.Domain.Models
 
         public DateTime Registration_Date { get; set; }
         public List<Role> Roles { get; set; }
-        public UserType UserType { get; set; }
     }
 }

@@ -18,11 +18,28 @@ namespace CutTime.Infrastructure.Services
             _context = context;
         }
 
-        public IQueryable<T> FindAll() => _context.Set<T>().AsNoTracking();
-        public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression) =>
-            _context.Set<T>().Where(expression).AsNoTracking();
-        public void Create(T entity) => _context.Set<T>().Add(entity);
-        public void Update(T entity) => _context.Set<T>().Update(entity);
-        public void Delete(T entity) => _context.Set<T>().Remove(entity);
+        public async Task<IEnumerable<T>> FindAll() => await _context.Set<T>().AsNoTracking().ToListAsync();
+
+        public async Task<IEnumerable<T>> FindByCondition(Expression<Func<T, bool>> expression) =>
+            await _context.Set<T>().Where(expression).AsNoTracking().ToListAsync();
+
+        public async Task Create(T entity)
+        {
+            await _context.Set<T>().AddAsync(entity);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task Update(T entity)
+        {
+            _context.Set<T>().Update(entity);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task Delete(T entity)
+        {
+            _context.Set<T>().Remove(entity);
+            await _context.SaveChangesAsync();
+        }
+
     }
 }

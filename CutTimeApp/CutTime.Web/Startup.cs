@@ -32,7 +32,7 @@ namespace CutTime.Web
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(option =>
                 {
-                    option.LoginPath = "/Authentication/Index";
+                    option.LoginPath = "/Authentication/Login";
                     option.ExpireTimeSpan = TimeSpan.FromMinutes(30);
                     option.AccessDeniedPath = "/Home/PageNotFound";
                 });
@@ -42,6 +42,8 @@ namespace CutTime.Web
             services.AddServices();
             services.AddFluentValidators();
             #endregion
+
+            services.AddAutoMapper(typeof(Startup));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -66,8 +68,8 @@ namespace CutTime.Web
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Authentication}/{action=Index}/{id?}");
-            });            
+                    pattern: "{controller=Authentication}/{action=Login}/{id?}");
+            });
         }
     }
 }

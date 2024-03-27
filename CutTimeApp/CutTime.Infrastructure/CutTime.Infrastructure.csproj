@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Mocks\" />
+    <Folder Include="Helpers\" />
   </ItemGroup>
 
 </Project>

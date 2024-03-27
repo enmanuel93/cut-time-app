@@ -34,7 +34,7 @@ namespace CutTime.Web
                 {
                     option.LoginPath = "/Authentication/Index";
                     option.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-                    option.AccessDeniedPath = "/";
+                    option.AccessDeniedPath = "/Home/PageNotFound";
                 });
             #endregion
 
@@ -66,7 +66,7 @@ namespace CutTime.Web
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Authentication}/{action=Login}");
+                    pattern: "{controller=Authentication}/{action=Index}/{id?}");
             });            
         }
     }

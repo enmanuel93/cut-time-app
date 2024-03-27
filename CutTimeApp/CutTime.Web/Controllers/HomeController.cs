@@ -1,9 +1,11 @@
 ﻿using CutTime.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace CutTime.Web.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -13,6 +15,7 @@ namespace CutTime.Web.Controllers
             _logger = logger;
         }
 
+        [Authorize(Roles = "Administrador,Supervisor,Barbero")]
         public IActionResult Index()
         {
             return View();
@@ -29,6 +32,7 @@ namespace CutTime.Web.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        [AllowAnonymous]
         public IActionResult PageNotFound()
         {
             return View();

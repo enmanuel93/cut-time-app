@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -113,18 +115,23 @@
                             @*<small class="label pull-right bg-red">3</small>*@
                         </a>
                     </li>
-                    <li class="header">MANTENIMIENTO</li>
-                    <li class="treeview">
-                        <a href="#">
-                            <i class="fa fa-users"></i>
-                            <span>Usuarios</span>
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a asp-area="" asp-controller="Clients" asp-action="Index"><i class="fa fa-circle-o"></i> Clientes</a></li>
-                            <li><a asp-area="" asp-controller="Barbers" asp-action="Index"><i class="fa fa-circle-o"></i> Barberos</a></li>
-                        </ul>
-                    </li>
+
+                    @if (User.IsInRole("Administrador"))
+                    {
+                        <li class="header">MANTENIMIENTO</li>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-users"></i>
+                                <span>Usuarios</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a asp-area="" asp-controller="Clients" asp-action="Index"><i class="fa fa-circle-o"></i> Clientes</a></li>
+                                <li><a asp-area="" asp-controller="Barbers" asp-action="Index"><i class="fa fa-circle-o"></i> Barberos</a></li>
+                            </ul>
+                        </li>
+                    }
+
                 </ul>
             </section>
             <!-- /.sidebar -->

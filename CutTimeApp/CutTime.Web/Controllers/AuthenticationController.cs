@@ -13,8 +13,9 @@ namespace CutTime.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginView data)
+        public async Task<IActionResult> Login(User data)
         {
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -24,12 +25,11 @@ namespace CutTime.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(User user)
-        {
+        public async Task<IActionResult> Register(User user)
+        {            
             return View();
         }
 
-        [HttpPost]
         public async Task<IActionResult> LogOut()
         {
             //await signInManager.SignOutAsync();

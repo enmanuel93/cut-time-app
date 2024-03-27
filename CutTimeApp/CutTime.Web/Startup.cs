@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration;
 using CutTime.Domain.Validations;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace CutTime.Web
 {
@@ -27,12 +28,19 @@ namespace CutTime.Web
             // Add services to the container.
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
+            #region Authentication
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(option =>
+                {
+                    option.LoginPath = "/Authentication/Index";
+                    option.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+                    option.AccessDeniedPath = "/";
+                });
+            #endregion
+
             #region Services
             services.AddServices();
-
-            services.AddFluentValidationAutoValidation();
-            services.AddScoped<IValidator<User>, UserValidator>();
-            //services.AddFluentValidators();
+            services.AddFluentValidators();
             #endregion
         }
 
@@ -51,6 +59,7 @@ namespace CutTime.Web
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

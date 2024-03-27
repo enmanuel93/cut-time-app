@@ -8,6 +8,7 @@ CREATE TABLE UserType (
 CREATE TABLE Users (
     ID_User INT PRIMARY KEY identity(1,1),
     Name VARCHAR(50) NOT NULL,
+	Lastname VARCHAR(50),
     Email VARCHAR(100) UNIQUE NOT NULL,
     Password VARCHAR(100) NOT NULL,
     Registration_Date DATETIME,

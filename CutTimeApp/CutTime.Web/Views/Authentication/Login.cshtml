@@ -1,17 +1,22 @@
-﻿@{
+﻿@model CutTime.Domain.Models.User
+
+@{
     Layout = "_Login_Layout";
 }
 
 <div class="login-box-body">
-    <p class="login-box-msg">Sign in to start your session</p>
+    <p class="login-box-msg">Inicia sesión</p>
+
+    <div asp-validation-summary="ModelOnly"></div>
+
     <form asp-controller="Authentication" asp-action="Login" method="post">
         <div class="form-group has-feedback">
-            <input type="text" class="form-control" placeholder="Email">
-            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            <input type="text" class="form-control" asp-for="Email" placeholder="Correo">
+            <span class="text-danger" asp-validation-for="Email"></span>
         </div>
         <div class="form-group has-feedback">
-            <input type="password" class="form-control" placeholder="Password">
-            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            <input type="password" class="form-control" asp-for="Password" placeholder="Contraseña">
+            <span class="text-danger" asp-validation-for="Password"></span>
         </div>
         <div class="row">
 @*            <div class="col-xs-8">
@@ -21,14 +26,18 @@
                     </label>
                 </div>
             </div><!-- /.col -->*@
-            <div class="col-xs-4">
-                <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+            <div class="col-xs-12">
+                <button type="submit" class="btn btn-primary btn-block btn-flat">Iniciar sesión</button>
             </div><!-- /.col -->
         </div>
     </form>
     </br>
+
     @*<a href="#">I forgot my password</a><br>*@
-    <a asp-area="" asp-controller="Authentication" asp-action="Register" class="text-center">Register a new membership</a>
+    <div>
+        ¿No tiene una cuenta? <a asp-area="" asp-controller="Authentication" asp-action="Register" class="text-center">Cree una.</a>
+    </div>
+    
 
 </div><!-- /.login-box-body -->
 

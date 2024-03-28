@@ -56,7 +56,8 @@ namespace CutTime.Web.Controllers
             }
             else
             {
-                return RedirectToAction("Index");
+                ViewBag.Error = "Nombre de usuario o contraseña incorrectos";
+                return View();
             }
         }
 

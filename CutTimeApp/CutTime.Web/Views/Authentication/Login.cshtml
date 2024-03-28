@@ -9,6 +9,11 @@
 
     <div asp-validation-summary="ModelOnly"></div>
 
+    @if (!string.IsNullOrEmpty(ViewBag.Error))
+    {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+
     <form asp-controller="Authentication" asp-action="Login" method="post">
         <div class="form-group has-feedback">
             <input type="text" class="form-control" asp-for="Email" placeholder="Correo">
